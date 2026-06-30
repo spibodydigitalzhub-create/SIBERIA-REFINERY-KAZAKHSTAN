@@ -1169,4 +1169,15 @@ img {
 
 .service-card:hover .service-image img {
     transform: scale(1.05);
-    }
+}
+.contact-section { padding: 100px 0; background: var(--light-color); }
+.contact-grid { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 40px; align-items: stretch; }
+.contact-info { display: flex; flex-direction: column; gap: 25px; }
+.info-card { background: var(--white); padding: 25px; border-radius: 8px; display: flex; gap: 20px; align-items: flex-start; box-shadow: 0 5px 20px rgba(0,0,0,0.1); transition: var(--transition); }
+.info-card:hover { transform: translateX(5px); }
+.info-card i { font-size: 1.8rem; color: var(--secondary-color); margin-top: 5px; }
+.info-card h4 { color: var(--primary-color); margin-bottom: 8px; font-size: 1.1rem; }
+.info-card p, .info-card a { color: var(--gray); line-height: 1.6; text-decoration: none; }
+.map-container { background: var(--white); border-radius: 8px; overflow: hidden; min-height: 500px !important; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+.map-container iframe { width: 100% !important; height: 100% !important; min-height: 500px; border: none; }
+@media (max-width: 992px) { .contact-grid { grid-template-columns: 1fr !important; } .map-container { min-height: 350px !important; } }
