@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About Us | Siberia Refinery Kazakhstan</title>
+  <meta name="description" content="25+ years of excellence in petroleum refining. Learn about our history, leadership team, certifications, and commitment to innovation.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/main.css">
+  <style>
+    .page-hero {
+      height: 60vh;
+      min-height: 500px;
+      background: linear-gradient(rgba(10, 22, 40, 0.75), rgba(10, 22, 40, 0.85)),
+                  url('https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=1920') center/cover;
+      display: flex;
+      align-items: center;
+      color: var(--white);
+      padding-top: 80px;
+    }
+    .page-hero .container { position: relative; z-index: 2; }
+    .page-hero h1 { color: var(--white); margin-bottom: 1rem; }
+    .page-hero h1 span { color: var(--gold); font-style: italic; font-weight: 400; }
+    .page-hero p { font-size: 1.25rem; opacity: 0.9; max-width: 600px; }
+    .breadcrumbs { margin-top: 2rem; font-size: 0.875rem; }
+    .breadcrumbs a { color: var(--gold-light); }
+    .breadcrumbs span { opacity: 0.6; margin: 0 8px; }
+    
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+    .value-card {
+      padding: 2.5rem;
+      background: var(--white);
+      border: 1px solid var(--smoke);
+      transition: var(--transition);
+    }
+    .value-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--gold);
+    }
+    .value-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--navy);
+      color: var(--gold);
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .value-card h3 { font-size: 1.25rem; margin-bottom: 0.75rem; }
+    .value-card p { color: var(--slate); font-size: 0.95rem; }
+    
+    .timeline {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+    }
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--gold-light);
+      transform: translateX(-50%);
+    }
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+      align-items: center;
+    }
+    .timeline-item:nth-child(even) .timeline-content { grid-column: 3; }
+    .timeline-item:nth-child(even) .timeline-year { grid-column: 1; text-align: right; }
+    .timeline-dot {
+      width: 20px;
+      height: 20px;
+      background: var(--gold);
+      border-radius: 50%;
+      border: 4px solid var(--white);
+      box-shadow: 0 0 0 2px var(--gold);
+    }
+    .timeline-year {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      color: var(--gold);
+      font-weight: 700;
+    }
+    .timeline-content {
+      background: var(--white);
+      padding: 1.5rem;
+      border: 1px solid var(--smoke);
+      box-shadow: var(--shadow-sm);
+    }
+    .timeline-content h4 { margin-bottom: 0.5rem; font-size: 1.125rem; }
+    .timeline-content p { color: var(--slate); font-size: 0.9rem; }
+    
+    .cert-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      text-align: center;
+    }
+    .cert-card {
+      padding: 2rem;
+      background: var(--white);
+      border: 1px solid var(--smoke);
+      transition: var(--transition);
+    }
+    .cert-card:hover { border-color: var(--gold); transform: translateY(-4px); }
+    .cert-card i { font-size: 3rem; color: var(--gold); margin-bottom: 1rem; }
+    .cert-card h4 { margin-bottom: 0.5rem; }
+    .cert-card p { color: var(--slate); font-size: 0.875rem; }
+    
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 2rem;
+    }
+    .team-card {
+      text-align: center;
+    }
+    .team-photo {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--navy);
+      margin-bottom: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .team-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s; }
+    .team-card:hover .team-photo img { transform: scale(1.05); }
+    .team-card h4 { margin-bottom: 0.25rem; }
+    .team-card .role { color: var(--gold); font-size: 0.875rem; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 1rem; font-weight: 600; }
+    .team-card p { color: var(--slate); font-size: 0.875rem; }
+    
+    @media (max-width: 768px) {
+      .timeline::before { left: 20px; }
+      .timeline-item { grid-template-columns: auto 1fr; }
+      .timeline-item:nth-child(even) .timeline-content { grid-column: 2; }
+      .timeline-item:nth-child(even) .timeline-year { grid-column: 2; text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">S</div>
+          <div class="logo-text">
+            <h2>SIBERIA<span>REFINERY</span></h2>
+            <p class="tagline">Kazakhstan</p>
+          </div>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link active">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="products.html" class="nav-link">Products</a></li>
+          <li><a href="sustainability.html" class="nav-link">Sustainability</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Our Story</span>
+      <h1>A Legacy of <span>Excellence</span></h1>
+      <p>From our founding in 1999 to becoming Kazakhstan's leading petroleum refinery, we've built a legacy on quality, innovation, and unwavering commitment to our clients.</p>
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a><span>/</span><span>About Us</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-preview reveal">
+        <div class="about-images">
+          <img src="https://images.unsplash.com/photo-1581094794329-c8112a89af12?w=800" alt="Refinery" class="about-img-main">
+          <img src="https://images.unsplash.com/photo-1518709766631-a6a7f45921c3?w=600" alt="Operations" class="about-img-secondary">
+        </div>
+        <div class="about-text">
+          <span class="eyebrow">Who We Are</span>
+          <h2>Kazakhstan's Premier Petroleum Refinery</h2>
+          <p>Located in the heart of Central Asia's energy corridor, Siberia Refinery operates one of the region's most advanced petroleum refining facilities. Our 150,000 barrels-per-day capacity serves customers across 30+ countries, delivering premium fuels that power industries, transportation, and economies worldwide.</p>
+          <p>We combine decades of refining expertise with cutting-edge technology to produce petroleum products that meet the most rigorous international specifications.</p>
+          <ul class="feature-list">
+            <li><i class="fas fa-check-circle"></i> Founded in 1999 by Mikhail Kulibayev</li>
+            <li><i class="fas fa-check-circle"></i> 5,000+ consecutive safety days</li>
+            <li><i class="fas fa-check-circle"></i> 1,200+ highly skilled employees</li>
+            <li><i class="fas fa-check-circle"></i> $2.5B facility investment</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Our Values</span>
+        <h2>Principles That Guide Us</h2>
+        <p>Every decision we make is anchored in these core values that have shaped our operations for over two decades.</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card reveal">
+          <div class="value-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3>Safety First</h3>
+          <p>Zero-compromise approach to operational safety. Our employees return home safely every day, every shift.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon"><i class="fas fa-award"></i></div>
+          <h3>Quality Excellence</h3>
+          <p>Every drop we produce meets or exceeds international standards. Quality is engineered in, not inspected in.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon"><i class="fas fa-leaf"></i></div>
+          <h3>Sustainability</h3>
+          <p>Committed to reducing our carbon footprint by 40% by 2030 through clean technologies and efficient operations.</p>
+        </div>
+        <div class="value-card reveal">
+          <div class="value-icon"><i class="fas fa-handshake"></i></div>
+          <h3>Client Partnership</h3>
+          <p>Long-term relationships built on trust, transparency, and consistent delivery of premium petroleum products.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Our Journey</span>
+        <h2>25 Years of Growth</h2>
+      </div>
+      <div class="timeline">
+        <div class="timeline-item reveal">
+          <div class="timeline-year">1999</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Foundation</h4>
+            <p>Siberia Refinery established in Almaty with initial capacity of 50,000 barrels/day.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">2005</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>First Export</h4>
+            <p>Began international exports with first Jet A-1 shipment to European aviation clients.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">2012</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Major Expansion</h4>
+            <p>$1.2B expansion doubled capacity to 100,000 barrels/day. ISO 9001 certification achieved.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">2018</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>Euro 5 Upgrade</h4>
+            <p>Completed ultra-low sulfur diesel conversion meeting EN590 Euro 5 standards.</p>
+          </div>
+        </div>
+        <div class="timeline-item reveal">
+          <div class="timeline-year">2024</div>
+          <div class="timeline-dot"></div>
+          <div class="timeline-content">
+            <h4>150K Milestone</h4>
+            <p>Reached 150,000 barrels/day capacity, serving 30+ countries globally.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Certifications</span>
+        <h2>International Standards</h2>
+        <p style="color: rgba(255,255,255,0.7);">Our operations and products meet the world's most rigorous industry certifications.</p>
+      </div>
+      <div class="cert-grid">
+        <div class="cert-card reveal">
+          <i class="fas fa-certificate"></i>
+          <h4>ISO 9001:2015</h4>
+          <p>Quality Management</p>
+        </div>
+        <div class="cert-card reveal">
+          <i class="fas fa-leaf"></i>
+          <h4>ISO 14001</h4>
+          <p>Environmental Management</p>
+        </div>
+        <div class="cert-card reveal">
+          <i class="fas fa-hard-hat"></i>
+          <h4>ISO 45001</h4>
+          <p>Occupational Safety</p>
+        </div>
+        <div class="cert-card reveal">
+          <i class="fas fa-plane"></i>
+          <h4>ASTM D1655</h4>
+          <p>Jet A-1 Specification</p>
+        </div>
+        <div class="cert-card reveal">
+          <i class="fas fa-gas-pump"></i>
+          <h4>EN 590</h4>
+          <p>Euro 5 Diesel Standard</p>
+        </div>
+        <div class="cert-card reveal">
+          <i class="fas fa-ship"></i>
+          <h4>IMO 2020</h4>
+          <p>Marine Fuel Compliance</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Leadership</span>
+        <h2>Executive Team</h2>
+        <p>Industry veterans driving Siberia Refinery's vision and operations.</p>
+      </div>
+      <div class="team-grid">
+        <div class="team-card reveal">
+          <div class="team-photo"><img src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=400" alt="Mikhail Kulibayev"></div>
+          <h4>Mikhail Kulibayev</h4>
+          <p class="role">Chief Executive Officer</p>
+          <p>Founder with 30+ years in petroleum industry</p>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-photo"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400" alt="Elena Volkov"></div>
+          <h4>Dr. Elena Volkov</h4>
+          <p class="role">Chief Operating Officer</p>
+          <p>Former Shell executive, refining specialist</p>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-photo"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400" alt="Viktor Asenov"></div>
+          <h4>Viktor Asenov</h4>
+          <p class="role">VP of Engineering</p>
+          <p>25 years in refinery operations</p>
+        </div>
+        <div class="team-card reveal">
+          <div class="team-photo"><img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400" alt="Aigerim Nurgaliyeva"></div>
+          <h4>Aigerim Nurgaliyeva</h4>
+          <p class="role">Export Director</p>
+          <p>International trade & logistics expert</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <span class="eyebrow">Join Our Journey</span>
+      <h2>Partner with <span>Excellence</span></h2>
+      <p>Discover why 30+ countries trust Siberia Refinery for their premium petroleum needs.</p>
+      <a href="contact.html" class="btn btn-primary">Contact Us <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 1.5rem;">
+            <div class="logo-mark">S</div>
+            <div class="logo-text"><h2>SIBERIA<span>REFINERY</span></h2><p class="tagline">Kazakhstan</p></div>
+          </div>
+          <p>Kazakhstan's premier petroleum refinery, delivering world-class energy solutions since 1999.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="products.html">Products</a></li><li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul class="footer-links">
+            <li><a href="products.html">Aviation Fuel</a></li><li><a href="products.html">Diesel EN590</a></li><li><a href="products.html">Marine Fuel</a></li><li><a href="products.html">Lubricants</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Almaty, Kazakhstan</span></div>
+          <div class="footer-contact-item"><i class="fas fa-phone"></i><span>+7 963 170 2012</span></div>
+          <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>info@siberiarefinery.com</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2024 Siberia Refinery Kazakhstan. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/79631702012" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+  <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+  <script src="js/main.js"></script>
+</body>
+  </html>￼Enter
