@@ -1,297 +1,220 @@
-// ===== NAVBAR SCROLL EFFECT =====
+/* ========== SIBERIA REFINERY - MAIN JAVASCRIPT ========== */
+
+// ===== NAVBAR =====
 const navbar = document.getElementById('navbar');
 const hamburger = document.getElementById('hamburger');
 const navMenu = document.getElementById('navMenu');
 
 window.addEventListener('scroll', () => {
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-    
-    // Show/Hide Scroll to Top Button
-    const scrollTop = document.getElementById('scrollTop');
-    if (window.scrollY > 500) {
-        scrollTop.classList.add('show');
-    } else {
-        scrollTop.classList.remove('show');
-    }
+  if (window.scrollY > 80) {
+    navbar.classList.add('scrolled');
+  } else if (window.scrollY < 30) {
+    navbar.classList.remove('scrolled');
+  }
+  
+  const scrollTop = document.getElementById('scrollTop');
+  if (scrollTop) {
+    if (window.scrollY > 500) scrollTop.classList.add('show');
+    else scrollTop.classList.remove('show');
+  }
 });
 
-// ===== MOBILE MENU TOGGLE =====
-hamburger.addEventListener('click', () => {
+// ===== MOBILE MENU =====
+if (hamburger && navMenu) {
+  hamburger.addEventListener('click', () => {
     navMenu.classList.toggle('active');
     hamburger.classList.toggle('active');
-});
-
-// Close mobile menu when clicking on a link
-document.querySelectorAll('.nav-link').forEach(link => {
+  });
+  
+  document.querySelectorAll('.nav-link').forEach(link => {
     link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-        hamburger.classList.remove('active');
+      navMenu.classList.remove('active');
+      hamburger.classList.remove('active');
     });
-});
+  });
+}
 
 // ===== HERO SLIDER =====
 const slides = document.querySelectorAll('.slide');
 const prevSlide = document.getElementById('prevSlide');
 const nextSlide = document.getElementById('nextSlide');
 let currentSlide = 0;
-const slideInterval = 6000; // 6 seconds
+let slideIntervalId;
 
 function showSlide(index) {
-    slides.forEach((slide, i) => {
-        slide.classList.remove('active');
-        if (i === index) {
-            slide.classList.add('active');
-        }
-    });
+  slides.forEach((slide, i) => {
+    slide.classList.toggle('active', i === index);
+  });
 }
+
 function nextSlideFunc() {
-    currentSlide = (currentSlide + 1) % slides.length;
-    showSlide(currentSlide);
+  currentSlide = (currentSlide + 1) % slides.length;
+  showSlide(currentSlide);
 }
 
 function prevSlideFunc() {
-    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
-    showSlide(currentSlide);
+  currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+  showSlide(currentSlide);
 }
 
-nextSlide.addEventListener('click', () => {
-    nextSlideFunc();
-    resetInterval();
-});
-
-prevSlide.addEventListener('click', () => {
-    prevSlideFunc();
-    resetInterval();
-});
-
-let slideIntervalId = setInterval(nextSlideFunc, slideInterval);
-
-function resetInterval() {
-    clearInterval(slideIntervalId);
-    slideIntervalId = setInterval(nextSlideFunc, slideInterval);
+function startSlider() {
+  slideIntervalId = setInterval(nextSlideFunc, 7000);
 }
+
+function resetSlider() {
+  clearInterval(slideIntervalId);
+  startSlider();
+}
+
+if (nextSlide) nextSlide.addEventListener('click', () => { nextSlideFunc(); resetSlider(); });
+if (prevSlide) prevSlide.addEventListener('click', () => { prevSlideFunc(); resetSlider(); });
+if (slides.length > 1) startSlider();
 
 // ===== ANIMATED COUNTERS =====
 const counters = document.querySelectorAll('.counter');
-const speed = 200; // The lower the slower
+let countersAnimated = false;
 
-const animateCounters = () => {
-    counters.forEach(counter => {
-        const target = +counter.getAttribute('data-target');
-        const count = +counter.innerText;
-        const inc = target / speed;
-
-        if (count < target) {
-            counter.innerText = Math.ceil(count + inc);
-            setTimeout(animateCounters, 20);
-        } else {
-            counter.innerText = target.toLocaleString();
-        }
-    });
-};
-
-// Trigger counters when in viewport
-const statsSection = document.querySelector('.stats-section');
-let counted = false;
-const observerOptions = {
-    threshold: 0.5
-};
-
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting && !counted) {
-            animateCounters();
-            counted = true;
-        }
-    });
-}, observerOptions);
-
-if (statsSection) {
-    observer.observe(statsSection);
+function animateCounters() {
+  counters.forEach(counter => {
+    const target = +counter.getAttribute('data-target');
+    const duration = 2000;
+    const steps = 60;
+    const increment = target / steps;
+    let current = 0;
+    
+    const timer = setInterval(() => {
+      current += increment;
+      if (current >= target) {
+        counter.textContent = target.toLocaleString();
+        clearInterval(timer);
+      } else {
+        counter.textContent = Math.floor(current).toLocaleString();
+      }
+    }, duration / steps);
+  });
 }
 
-// ===== TESTIMONIALS SLIDER =====
-const testimonials = document.querySelectorAll('.testimonial-card');
+// Trigger counters on scroll
+const statsSection = document.querySelector('.stats-section');
+if (statsSection && 'IntersectionObserver' in window) {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !countersAnimated) {
+        animateCounters();
+        countersAnimated = true;
+      }
+    });
+  }, { threshold: 0.3 });
+  observer.observe(statsSection);
+}
+
+// ===== TESTIMONIAL SLIDER =====
+const testimonials = document.querySelectorAll('.testimonial');
 const dots = document.querySelectorAll('.dot');
 let currentTestimonial = 0;
+let testimonialIntervalId;
 
 function showTestimonial(index) {
-    testimonials.forEach((testimonial, i) => {
-        testimonial.classList.remove('active');
-        dots[i].classList.remove('active');
-        if (i === index) {
-            testimonial.classList.add('active');
-            dots[i].classList.add('active');
-        }
-    });
+  testimonials.forEach((t, i) => {
+    t.classList.toggle('active', i === index);
+  });
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i === index);
+  });
 }
 
 dots.forEach((dot, index) => {
-    dot.addEventListener('click', () => {
-        currentTestimonial = index;
-        showTestimonial(currentTestimonial);
-    });
+  dot.addEventListener('click', () => {
+    currentTestimonial = index;
+    showTestimonial(currentTestimonial);
+    clearInterval(testimonialIntervalId);
+    startTestimonialAuto();
+  });
 });
 
-// Auto-advance testimonials
-setInterval(() => {
+function startTestimonialAuto() {
+  testimonialIntervalId = setInterval(() => {
     currentTestimonial = (currentTestimonial + 1) % testimonials.length;
     showTestimonial(currentTestimonial);
-}, 6000);
+  }, 8000);
+}
+
+if (testimonials.length > 0) startTestimonialAuto();
 
 // ===== SCROLL TO TOP =====
-document.getElementById('scrollTop').addEventListener('click', () => {
-    window.scrollTo({        top: 0,
-        behavior: 'smooth'
-    });
-});
+const scrollTopBtn = document.getElementById('scrollTop');
+if (scrollTopBtn) {
+  scrollTopBtn.addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+}
 
-// ===== SMOOTH SCROLL FOR NAVIGATION LINKS =====
+// ===== SMOOTH SCROLL =====
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-            const offsetTop = target.offsetTop - 80; // Account for fixed navbar
-            window.scrollTo({
-                top: offsetTop,
-                behavior: 'smooth'
-            });
-        }
-    });
+  anchor.addEventListener('click', function(e) {
+    const href = this.getAttribute('href');
+    if (href === '#') return;
+    const target = document.querySelector(href);
+    if (target) {
+      e.preventDefault();
+      const offsetTop = target.offsetTop - 80;
+      window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+    }
+  });
 });
 
-// ===== ACTIVE NAV LINK ON SCROLL =====
-const sections = document.querySelectorAll('section[id]');
-
-function highlightNavLink() {
-    const scrollY = window.pageYOffset;
-
-    sections.forEach(section => {
-        const sectionHeight = section.offsetHeight;
-        const sectionTop = section.offsetTop - 100;
-        const sectionId = section.getAttribute('id');
-        const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
-
-        if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
-            if (navLink) {
-                navLink.classList.add('active');
-            }
-        } else {
-            if (navLink) {
-                navLink.classList.remove('active');
-            }
-        }
-    });
-}
-
-window.addEventListener('scroll', highlightNavLink);
-
-// ===== CONTACT FORM SUBMISSION =====
-const contactForm = document.getElementById('contactForm');
-
-if (contactForm) {    contactForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        // Get form data
-        const formData = new FormData(this);
-        const data = Object.fromEntries(formData);
-        
-        // Here you would normally send the data to a server
-        console.log('Form Data:', data);
-        
-        // Show success message
-        alert('Thank you for your message! We will get back to you soon.');
-        
-        // Reset form
-        this.reset();
-    });
-}
-
-// ===== LANGUAGE SWITCHER =====
-const langButtons = document.querySelectorAll('.lang-btn');
-let currentLang = 'en';
-
-langButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
-        langButtons.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        currentLang = btn.getAttribute('data-lang');
-        
-        // Here you would load the language file and update content
-        loadLanguage(currentLang);
-    });
-});
-
-function loadLanguage(lang) {
-    // This would fetch the JSON file and update the page content
-    // For now, we'll just log it
-    console.log('Loading language:', lang);
-    
-    // Example implementation:
-    // fetch(`languages/${lang}.json`)
-    //     .then(response => response.json())
-    //     .then(data => {
-    //         // Update all elements with data-i18n attribute
-    //         document.querySelectorAll('[data-i18n]').forEach(element => {
-    //             const key = element.getAttribute('data-i18n');
-    //             if (data[key]) {
-    //                 element.textContent = data[key];
-    //             }
-    //         });
-    //     });}
-
-// ===== PARALLAX EFFECT =====
-window.addEventListener('scroll', () => {
-    const scrolled = window.pageYOffset;
-    const parallaxElements = document.querySelectorAll('.hero-slider');
-    
-    parallaxElements.forEach(el => {
-        el.style.transform = `translateY(${scrolled * 0.5}px)`;
-    });
-});
-
-// ===== LAZY LOADING IMAGES =====
+// ===== REVEAL ON SCROLL =====
 if ('IntersectionObserver' in window) {
-    const imageObserver = new IntersectionObserver((entries, observer) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const img = entry.target;
-                if (img.dataset.src) {
-                    img.src = img.dataset.src;
-                    img.removeAttribute('data-src');
-                    observer.unobserve(img);
-                }
-            }
-        });
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        revealObserver.unobserve(entry.target);
+      }
     });
-
-    document.querySelectorAll('img[data-src]').forEach(img => {
-        imageObserver.observe(img);
-    });
+  }, { threshold: 0.15 });
+  
+  document.querySelectorAll('.reveal').forEach(el => {
+    revealObserver.observe(el);
+  });
 }
 
-// ===== FORM INPUT ANIMATION =====
-const formInputs = document.querySelectorAll('.form-group input, .form-group textarea, .form-group select');
-
-formInputs.forEach(input => {
-    input.addEventListener('focus', () => {
-        input.parentElement.classList.add('focused');
-    });
+// ===== CONTACT FORM =====
+const contactForm = document.getElementById('contactForm');
+if (contactForm) {
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
     
-    input.addEventListener('blur', () => {
-        if (!input.value) {
-            input.parentElement.classList.remove('focused');
-        }
-    });
+    const formData = new FormData(this);
+    const data = Object.fromEntries(formData);
+    
+    console.log('Form submission:', data);
+    
+    // Success message
+    const btn = this.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Message Sent Successfully';
+    btn.style.background = 'var(--gold)';
+    btn.disabled = true;
+    
+    setTimeout(() => {
+      this.reset();
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+    }, 3000);
+  });
+}
+
+// ===== ACTIVE NAV LINK =====
+const navLinks = document.querySelectorAll('.nav-link');
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+
+navLinks.forEach(link => {
+  const linkPage = link.getAttribute('href');
+  if (linkPage === currentPage) {
+    navLinks.forEach(l => l.classList.remove('active'));
+    link.classList.add('active');
+  }
 });
 
-// ===== PAGE LOAD ANIMATION =====
-window.addEventListener('load', () => {
-    document.body.classList.add('loaded');});
-
-console.log('Siberia Refinery Website Loaded Successfully! 🚀');
+console.log('Siberia Refinery Loaded Successfully | Built by Spibody Digitalz Hub');
