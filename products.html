@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products | Siberia Refinery Kazakhstan</title>
+  <meta name="description" content="Premium petroleum products: Jet A-1, Euro 5 Diesel, Gasoline, Marine Fuel, Lubricants, and Bitumen. ASTM, EN, and ISO certified.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="main.css">
+  <style>
+    .page-hero {
+      height: 60vh;
+      min-height: 500px;
+      background: linear-gradient(rgba(10, 22, 40, 0.8), rgba(10, 22, 40, 0.85)),
+                  url('https://images.unsplash.com/photo-1578575437130-2273e094f86d?w=1920') center/cover;
+      display: flex;
+      align-items: center;
+      color: var(--white);
+      padding-top: 80px;
+    }
+    .page-hero .container { position: relative; z-index: 2; }
+    .page-hero h1 { color: var(--white); margin-bottom: 1rem; }
+    .page-hero h1 span { color: var(--gold); font-style: italic; font-weight: 400; }
+    .page-hero p { font-size: 1.25rem; opacity: 0.9; max-width: 600px; }
+    .breadcrumbs { margin-top: 2rem; font-size: 0.875rem; }
+    .breadcrumbs a { color: var(--gold-light); }
+    .breadcrumbs span { opacity: 0.6; margin: 0 8px; }
+    
+    .product-filter {
+      display: flex;
+      gap: 0.75rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 3rem;
+    }
+    .filter-btn {
+      padding: 10px 24px;
+      border: 1px solid var(--border);
+      background: var(--white);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--navy);
+      color: var(--gold);
+      border-color: var(--navy);
+    }
+    
+    .product-detail-card {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 4rem 0;
+      border-bottom: 1px solid var(--smoke);
+    }
+    .product-detail-card:last-child { border-bottom: none; }
+    .product-detail-card:nth-child(even) .product-detail-image { order: 2; }
+    
+    .product-detail-image {
+      height: 500px;
+      overflow: hidden;
+      position: relative;
+    }
+    .product-detail-image img { width: 100%; height: 100%; object-fit: cover; }
+    .product-detail-image .product-spec {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      background: var(--gold);
+      color: var(--navy);
+      padding: 8px 16px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    
+    .product-detail-info .eyebrow { margin-bottom: 0.5rem; }
+    .product-detail-info h2 { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .product-detail-info .subtitle {
+      color: var(--gold);
+      font-size: 1rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      font-weight: 600;
+    }
+    .product-detail-info > p {
+      color: var(--slate);
+      margin-bottom: 2rem;
+      font-size: 1.05rem;
+    }
+    
+    .spec-table {
+      width: 100%;
+      margin-bottom: 2rem;
+      border-collapse: collapse;
+    }
+    .spec-table tr { border-bottom: 1px solid var(--smoke); }
+    .spec-table td {
+      padding: 1rem 0;
+      font-size: 0.9rem;
+    }
+    .spec-table td:first-child {
+      color: var(--slate);
+      font-weight: 500;
+      width: 40%;
+    }
+    .spec-table td:last-child {
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--navy);
+    }
+    
+    .applications {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+    .applications li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0.5rem 0;
+      color: var(--slate);
+      font-size: 0.95rem;
+    }
+    .applications li i { color: var(--gold); }
+    
+    @media (max-width: 900px) {
+      .product-detail-card { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 0; }
+      .product-detail-card:nth-child(even) .product-detail-image { order: 0; }
+      .product-detail-image { height: 350px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar scrolled">
+    <div class="container">
+      <div class="nav-wrapper">
+        <a href="index.html" class="logo">
+          <div class="logo-mark">S</div>
+          <div class="logo-text">
+            <h2>SIBERIA<span>REFINERY</span></h2>
+            <p class="tagline">Kazakhstan</p>
+          </div>
+        </a>
+        <ul class="nav-menu" id="navMenu">
+          <li><a href="index.html" class="nav-link">Home</a></li>
+          <li><a href="about.html" class="nav-link">About</a></li>
+          <li><a href="services.html" class="nav-link">Services</a></li>
+          <li><a href="products.html" class="nav-link active">Products</a></li>
+          <li><a href="sustainability.html" class="nav-link">Sustainability</a></li>
+          <li><a href="contact.html" class="nav-link">Contact</a></li>
+          <li><a href="contact.html" class="nav-cta">Get a Quote</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+          <span class="bar"></span><span class="bar"></span><span class="bar"></span>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <section class="page-hero">
+    <div class="container">
+      <span class="eyebrow">Our Portfolio</span>
+      <h1>Premium <span>Petroleum Products</span></h1>
+      <p>Six categories of world-class fuels engineered for performance, compliance, and reliability across aviation, automotive, marine, and industrial applications.</p>
+      <div class="breadcrumbs">
+        <a href="index.html">Home</a><span>/</span><span>Products</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="eyebrow">Full Catalog</span>
+        <h2>Engineered for Every Application</h2>
+        <p>Each product undergoes rigorous quality control in our state-of-the-art laboratory before shipment.</p>
+      </div>
+
+      <div class="product-detail-card reveal">
+        <div class="product-detail-image">
+          <img src="https://images.unsplash.com/photo-1569336415962-a4bd95875e55?w=800" alt="Aviation Fuel">
+          <span class="product-spec">Jet A-1</span>
+        </div>
+        <div class="product-detail-info">
+          <span class="eyebrow">Aviation</span>
+          <h2>Jet A-1 Aviation Fuel</h2>
+          <div class="subtitle">ASTM D1655 / DEF STAN 91-91</div>
+          <p>Premium-grade aviation turbine fuel manufactured to the highest international specifications for commercial and military aircraft operations worldwide.</p>
+          <table class="spec-table">
+            <tr><td>Flash Point</td><td>≥ 38°C</td></tr>
+            <tr><td>Freeze Point</td><td>-47°C max</td></tr>
+            <tr><td>Net Heat</td><td>42.8 MJ/kg min</td></tr>
+            <tr><td>Sulfur Content</td><td>0.30% max</td></tr>
+          </table>
+          <h4>Applications</h4>
+          <ul class="applications">
+            <li><i class="fas fa-check-circle"></i> Commercial airlines</li>
+            <li><i class="fas fa-check-circle"></i> Military aviation</li>
+            <li><i class="fas fa-check-circle"></i> Business jets</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Quote <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="product-detail-card reveal">
+        <div class="product-detail-image">
+          <img src="https://images.unsplash.com/photo-1605218427368-35b0f996d3e1?w=800" alt="Diesel">
+          <span class="product-spec">EN 590</span>
+        </div>
+        <div class="product-detail-info">
+          <span class="eyebrow">Automotive</span>
+          <h2>Euro 5 Diesel EN590</h2>
+          <div class="subtitle">Ultra-Low Sulfur Diesel (ULSD)</div>
+          <p>Ultra-low sulfur diesel meeting stringent Euro 5 environmental standards. Ideal for modern diesel engines with advanced emission control systems.</p>
+          <table class="spec-table">
+            <tr><td>Cetane Number</td><td>≥ 51</td></tr>
+            <tr><td>Sulfur</td><td>≤ 10 ppm</td></tr>
+            <tr><td>Density @ 15°C</td><td>820-845 kg/m³</td></tr>
+            <tr><td>CFPP Winter</td><td>-20°C</td></tr>
+          </table>
+          <h4>Applications</h4>
+          <ul class="applications">
+            <li><i class="fas fa-check-circle"></i> Automotive diesel engines</li>
+            <li><i class="fas fa-check-circle"></i> Heavy-duty trucks</li>
+            <li><i class="fas fa-check-circle"></i> Industrial generators</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Quote <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="product-detail-card reveal">
+        <div class="product-detail-image">
+          <img src="https://images.unsplash.com/photo-1578575437130-2273e094f86d?w=800" alt="Marine Fuel">
+          <span class="product-spec">IMO 2020</span>
+        </div>
+        <div class="product-detail-info">
+          <span class="eyebrow">Marine</span>
+          <h2>Marine Fuels</h2>
+          <div class="subtitle">MGO / MDO / HFO</div>
+          <p>Complete range of marine fuels meeting IMO 2020 regulations. Available in multiple viscosity grades for all vessel types and operational requirements.</p>
+          <table class="spec-table">
+            <tr><td>Sulfur (MGO)</td><td>≤ 0.10%</td></tr>
+            <tr><td>Sulfur (HFO)</td><td>≤ 0.50%</td></tr>
+            <tr><td>Viscosity Range</td><td>1.5 - 380 cSt</td></tr>
+            <tr><td>Flash Point</td><td>≥ 60°C</td></tr>
+          </table>
+          <h4>Applications</h4>
+          <ul class="applications">
+            <li><i class="fas fa-check-circle"></i> Container vessels</li>
+            <li><i class="fas fa-check-circle"></i> Tankers & bulk carriers</li>
+            <li><i class="fas fa-check-circle"></i> Cruise ships</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Quote <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="product-detail-card reveal">
+        <div class="product-detail-image">
+          <img src="https://images.unsplash.com/photo-1527011046414-4781f1f94f8c?w=800" alt="Gasoline">
+          <span class="product-spec">AI-92 / 95 / 98</span>
+        </div>
+        <div class="product-detail-info">
+          <span class="eyebrow">Automotive</span>
+          <h2>Premium Gasoline</h2>
+          <div class="subtitle">AI-92, AI-95, AI-98 Grades</div>
+          <p>Unleaded gasoline in multiple octane ratings with advanced detergent additive packages for optimal engine performance and cleanliness.</p>
+          <table class="spec-table">
+            <tr><td>Octane (RON)</td><td>92 / 95 / 98</td></tr>
+            <tr><td>Sulfur</td><td>≤ 10 ppm</td></tr>
+            <tr><td>Benzene</td><td>≤ 1.0%</td></tr>
+            <tr><td>Additives</td><td>Detergent Package</td></tr>
+          </table>
+          <h4>Applications</h4>
+          <ul class="applications">
+            <li><i class="fas fa-check-circle"></i> Passenger vehicles</li>
+            <li><i class="fas fa-check-circle"></i> Light commercial vehicles</li>
+            <li><i class="fas fa-check-circle"></i> Small engines</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Quote <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="product-detail-card reveal">
+        <div class="product-detail-image">
+          <img src="https://images.unsplash.com/photo-1487700160041-babef9c3cb55?w=800" alt="Lubricants">
+          <span class="product-spec">Industrial</span>
+        </div>
+        <div class="product-detail-info">
+          <span class="eyebrow">Industrial</span>
+          <h2>Lubricants & Oils</h2>
+          <div class="subtitle">Automotive & Industrial</div>
+          <p>High-performance lubricating oils and greases formulated for extended drain intervals and superior protection in extreme conditions.</p>
+          <table class="spec-table">
+            <tr><td>Product Range</td><td>40+ Grades</td></tr>
+            <tr><td>Viscosity Index</td><td>130-180</td></tr>
+            <tr><td>Additives</td><td>Multi-functional</td></tr>
+            <tr><td>Applications</td><td>Full Spectrum</td></tr>
+          </table>
+          <h4>Applications</h4>
+          <ul class="applications">
+            <li><i class="fas fa-check-circle"></i> Engine oils</li>
+            <li><i class="fas fa-check-circle"></i> Hydraulic fluids</li>
+            <li><i class="fas fa-check-circle"></i> Industrial greases</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Quote <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+      <div class="product-detail-card reveal">
+        <div class="product-detail-image">
+          <img src="https://images.unsplash.com/photo-1590486803833-1c5dc8ddd4c8?w=800" alt="Bitumen">
+          <span class="product-spec">60/70 • 80/100</span>
+        </div>
+        <div class="product-detail-info">
+          <span class="eyebrow">Construction</span>
+          <h2>Bitumen</h2>
+          <div class="subtitle">Penetration Grades & Polymer Modified</div>
+          <p>Premium quality bitumen for road construction, waterproofing, and industrial applications. Available in standard and polymer-modified grades.</p>
+          <table class="spec-table">
+            <tr><td>Grades Available</td><td>60/70, 80/100, 40/50</td></tr>
+            <tr><td>Softening Point</td><td>46-54°C</td></tr>
+            <tr><td>Penetration @ 25°C</td><td>60-100 dmm</td></tr>
+            <tr><td>Flash Point</td><td>≥ 250°C</td></tr>
+          </table>
+          <h4>Applications</h4>
+          <ul class="applications">
+            <li><i class="fas fa-check-circle"></i> Road construction</li>
+            <li><i class="fas fa-check-circle"></i> Waterproofing membranes</li>
+            <li><i class="fas fa-check-circle"></i> Roofing materials</li>
+          </ul>
+          <a href="contact.html" class="btn btn-primary">Request Quote <i class="fas fa-arrow-right"></i></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <div class="container">
+      <span class="eyebrow">Global Supply</span>
+      <h2>Ready to <span>Order?</span></h2>
+      <p>Our export team provides FOB and CIF quotations within 24 hours with full documentation and logistics planning.</p>
+      <a href="contact.html" class="btn btn-primary">Request Quotation <i class="fas fa-arrow-right"></i></a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="logo" style="margin-bottom: 1.5rem;">
+            <div class="logo-mark">S</div>
+            <div class="logo-text"><h2>SIBERIA<span>REFINERY</span></h2><p class="tagline">Kazakhstan</p></div>
+          </div>
+          <p>Kazakhstan's premier petroleum refinery since 1999.</p>
+        </div>
+        <div class="footer-col">
+          <h4>Quick Links</h4>
+          <ul class="footer-links">
+            <li><a href="about.html">About Us</a></li><li><a href="services.html">Services</a></li><li><a href="products.html">Products</a></li><li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Products</h4>
+          <ul class="footer-links">
+            <li><a href="products.html">Aviation Fuel</a></li><li><a href="products.html">Diesel EN590</a></li><li><a href="products.html">Marine Fuel</a></li><li><a href="products.html">Lubricants</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Contact</h4>
+          <div class="footer-contact-item"><i class="fas fa-map-marker-alt"></i><span>Almaty, Kazakhstan</span></div>
+          <div class="footer-contact-item"><i class="fas fa-phone"></i><span>+7 963 170 2012</span></div>
+          <div class="footer-contact-item"><i class="fas fa-envelope"></i><span>info@siberiarefinery.com</span></div>
+        </div>
+      </div>
+      <div class="footer-bottom"><p>&copy; 2024 Siberia Refinery Kazakhstan. All rights reserved.</p></div>
+    </div>
+  </footer>
+
+  <a href="https://wa.me/79631702012" class="whatsapp-float"><i class="fab fa-whatsapp"></i></a>
+  <button class="scroll-top" id="scrollTop"><i class="fas fa-arrow-up"></i></button>
+  <script src="main.js"></script>
+</body>
+    </html>
